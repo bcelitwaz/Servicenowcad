@@ -39,7 +39,34 @@
         <message_html><![CDATA[<p>Dear Requested for: ${requested_for}</p>
 <p>The ${item_type}&nbsp; ${cmdb_ci} is available for pick up at ${depot}</p>
 <p>Your reservation is scheduled to begin&nbsp; ${start_date} . Please return the item to the same location you picked it up by&nbsp; ${end_date}</p>
-<p>You will receive a return reminder notification.</p>]]></message_html>
+<p>You will receive a return reminder notification.</p>
+<p>&nbsp;</p>
+<p>&lt;mail_script&gt;</p>
+<div>
+<div>(function executeRule(current, previous /*null when async*/ ) {</div>
+<br />
+<div>&nbsp; &nbsp; &nbsp; &nbsp; if (current.item_type == 'cmdb_ci_computer') {</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var request = new sn_ws.RESTMessageV2();</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; request.setEndpoint('<a href="https://nowlearning-nlinst02455911-6edvx-0001.lab.service-now.com/api/now/table/u_password_vault?sysparm_query=u_asset%3DP1000503'">https://nowlearning-nlinst02455911-6edvx-0001.lab.service-now.com/api/now/table/u_password_vault?sysparm_query=u_asset%3DP1000503'</a> +</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; current.cmdb_ci.asset_tag +</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; '&amp;sysparm_fields=u_password_vault&amp;sysparm_limit=1');</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; request.setHttpMethod('GET');</div>
+<br />
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //Eg. UserName="admin", Password="admin" for this code sample.</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var user = 'admin';</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var password = '3=f4D}qenEs]cWnhBAa1vmC503iMx:B}f';</div>
+<br />
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; request.setBasicAuth(user, password);</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; request.setRequestHeader("Accept", "application/json");</div>
+<br />
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var response = request.execute();</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; var obj = JSON.parse(response.getBody());</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var myPass= obj.result[0].u_password_vault;</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; template.print ('u_password_vault: '+ myPass);</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; }</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; })(current, previous);</div>
+</div>
+<p>&lt;/mail_script&gt;</p>]]></message_html>
         <message_list/>
         <message_text/>
         <name>Loaner Item Pick Up</name>
@@ -61,7 +88,7 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>37ecf66483f712107f44ad5329da1e5c</sys_id>
-        <sys_mod_count>1</sys_mod_count>
+        <sys_mod_count>2</sys_mod_count>
         <sys_name>Loaner Item Pick Up</sys_name>
         <sys_overrides/>
         <sys_package display_value="Loaner Request" source="x_cdltd_loaner_req">10961db3839312107f44ad5329da1e49</sys_package>
@@ -69,7 +96,7 @@
         <sys_scope display_value="Loaner Request">10961db3839312107f44ad5329da1e49</sys_scope>
         <sys_update_name>sysevent_email_action_37ecf66483f712107f44ad5329da1e5c</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-02-15 13:44:34</sys_updated_on>
+        <sys_updated_on>2025-02-22 13:30:26</sys_updated_on>
         <sys_version>2</sys_version>
         <template display_value="Unsubscribe and Preferences">7ed0481f3b0b2200c869c2c703efc487</template>
         <type>email</type>
